@@ -13,3 +13,36 @@ const apiUrls = [
 ];
 
 // You can write your code here
+
+const opAll = document.getElementById('output-all');
+const opAny = document.getElementById('output-any');
+
+const promises = apiUrls.map(url => fetch(url));
+
+Promise.all(promises).then(responses =>{
+	responses.forEach(response => {
+		const row = document.createElement('tr');
+		const urlCell = document.createElement('td');
+		const staCell = document.createElement('td');
+		urlCell.textContent = response.url;
+		staCell.textContent = response.status;
+		row.appendChild(urlCell);
+		row.appendChild(staCell);
+		opAll.appendChild(row);
+	});
+}).catch(error => {
+	console.log(error);
+});
+
+Promise.any(promises).then(response => {
+		const row = document.createElement('tr');
+		const urlCell = document.createElement('td');
+		const staCell = document.createElement('td');
+		urlCell.textContent = response.url;
+		staCell.textContent = response.status;
+		row.appendChild(urlCell);
+		row.appendChild(staCell);
+		opAny.appendChild(row);
+}).catch(error => {
+	console.log(error);
+});
